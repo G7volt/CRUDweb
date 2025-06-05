@@ -41,3 +41,24 @@ function mostrarDatos(datos){
   
 }
 obtenerIntegrantes();
+
+
+//Proceso para agregar un nuevo integrante
+const modal = document.getElementById("md-agregar")//Cuadro de dialogo
+const btnAgregar = document.getElementById("BtnAgregar")//Boton para agregar
+
+const btnCerrar = document.getElementById("BtnCerrar")//Boton para cerrar dialogo
+
+btnAgregar.addEventListener("click", () =>{
+    modal.showModal(); //Para abrir el popup al hacer click al boton
+});
+
+btnCerrar.addEventListener("click", () => {
+    modal.close();
+})
+
+//Agregar un nuevo integrante desde el formulario
+document.getElementById("frmAgregar").addEventListener("submit", async e => {
+    e.preventDefault(); //"e" representa a submit, evita que el formulario se envie de un solo
+});
+
