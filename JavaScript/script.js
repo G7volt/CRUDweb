@@ -60,5 +60,42 @@ btnCerrar.addEventListener("click", () => {
 //Agregar un nuevo integrante desde el formulario
 document.getElementById("frmAgregar").addEventListener("submit", async e => {
     e.preventDefault(); //"e" representa a submit, evita que el formulario se envie de un solo
+    
+     //Capturar los valores del formulario
+     const nombre = document.getElementById("txtNombre").value.trim();
+     const apellido = document.getElementById("txtApellido").value.trim();
+     const correo = document.getElementById("txtCorreo").value.trim();
+
+     //Validación basica
+    if(!nombre || !apellido || !correo) {
+        alert("Ingrese los valores necesarios");
+    }
+
+     //Llamar a la API para enviar el registro
+     const respuesta = await fetch(API_URL, {
+        method: "POST",//Tipo de accion o solicitud
+        headers: {'Content-Type':'application/json'},//Tipo de dato enviado
+        body: JSON.stringify({nombre, apellido, correo})//Datos enviados, Stringify convierte el archivo JSON a string, 
+
+    });//fetch: Es para llamar a la api || await por si se tarda
+
+
+    //validacion: Verificar que la API responde que los datos fueron enviados correctamente
+    if(respuesta.ok){
+        alert("El registro fue agregado correctamente");
+
+        //Limpiar el formulario luego de enviar los datos
+        document.getElementById("frmAgregar").reset();
+
+        //Cerrar el modal(dialog)
+        modal.close();
+
+        //Recargar la tabla
+        obtenerIntegrantes();
+    }
+
+
+
 });
 
+//modalAgregar.close();
