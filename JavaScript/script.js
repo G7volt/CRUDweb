@@ -23,7 +23,7 @@ function mostrarDatos(datos){
     //Para injectar codigo html usamos una propiedad "innerHTML"
     tabla.innerHTML = "" //Para vaciar el contenido de la tabla
 
-    datos.forEach(integrante => {
+    datos.forEach(integrante => {//Caoturando los datos de los campos
         tabla.innerHTML += `
         <tr>
             <td>${integrante.id}</td>
@@ -32,7 +32,7 @@ function mostrarDatos(datos){
             <td>${integrante.correo}</td>
             <td> 
                <button>Editar</button>
-               <button>Eliminar</button>
+               <button onClick = "eliminarPersona(${integrante.id})">Eliminar</button>
             </td>
         </tr>
         `;
@@ -54,7 +54,7 @@ btnAgregar.addEventListener("click", () =>{
 });
 
 btnCerrar.addEventListener("click", () => {
-    modal.close();
+    modal.close();//Para cerrar el popup al hacer click a la X
 })
 
 //Agregar un nuevo integrante desde el formulario
@@ -92,10 +92,30 @@ document.getElementById("frmAgregar").addEventListener("submit", async e => {
 
         //Recargar la tabla
         obtenerIntegrantes();
+    }else{
+        //En caso de que la API devuelva un codigo diferente a 200-29900
+        alert("El registro no fue agregado");
     }
 
+    
 
 
 });
 
-//modalAgregar.close();
+
+
+//Funcion para borrar registros
+async function eliminarPersona(id){
+    const confirmacion = confirm("Realmente deseas eliminar el registro?")
+
+
+    //Validamos si el usuario confirmo borrar el registro
+    if(confirmacion){
+        await fetch(`${API_URL}/${id}`, {
+            method: "DELETE"
+        });
+    }
+
+    //Recargar la tabla despues de eliminar los registros
+    obtenerIntegrantes();
+}
