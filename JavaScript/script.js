@@ -23,7 +23,7 @@ function mostrarDatos(datos){
     //Para injectar codigo html usamos una propiedad "innerHTML"
     tabla.innerHTML = "" //Para vaciar el contenido de la tabla
 
-    datos.forEach(integrante => {//Caoturando los datos de los campos
+    datos.forEach(integrante => {//Capturando los datos de los campos
         tabla.innerHTML += `
         <tr>
             <td>${integrante.id}</td>
@@ -31,7 +31,7 @@ function mostrarDatos(datos){
             <td>${integrante.apellido}</td>
             <td>${integrante.correo}</td>
             <td> 
-               <button>Editar</button>
+               <button onClick = "AbrirModalEditar('${integrante.id}', '${integrante.nombre}', '${integrante.apellido}', '${integrante.correo}')">Editar</button>
                <button onClick = "eliminarPersona(${integrante.id})">Eliminar</button>
             </td>
         </tr>
@@ -119,3 +119,29 @@ async function eliminarPersona(id){
     //Recargar la tabla despues de eliminar los registros
     obtenerIntegrantes();
 }
+
+
+
+
+/*Proceso para editar un registro*/ 
+
+const modalEditar = document.getElementById("md-Editar");
+const modalCerrarEditar = document.getElementById("BtnCerrarEditar");
+
+BtnCerrarEditar.addEventListener("click", () => {
+    modalEditar.close();//Para cerrar el modal de editar al hacer click a la x
+});
+
+/*Abrir el modal editar*/
+
+function AbrirModalEditar(id, nombre, apellido, correo){
+    //se asignan los valores del registro en los input
+    document.getElementById("txtIdEditar").value = id;
+    document.getElementById("txtNombreEditar").value = nombre;
+    document.getElementById("txtApellidoEditar").value = apellido;
+    document.getElementById("txtCorreoEditar").value = correo;
+
+    //abrimos el modal despues de pasar
+    modalEditar.showModal();
+}
+
