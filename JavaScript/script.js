@@ -128,7 +128,7 @@ async function eliminarPersona(id){
 const modalEditar = document.getElementById("md-Editar");
 const modalCerrarEditar = document.getElementById("BtnCerrarEditar");
 
-BtnCerrarEditar.addEventListener("click", () => {
+modalCerrarEditar.addEventListener("click", () => {
     modalEditar.close();//Para cerrar el modal de editar al hacer click a la x
 });
 
@@ -144,4 +144,37 @@ function AbrirModalEditar(id, nombre, apellido, correo){
     //abrimos el modal despues de pasar
     modalEditar.showModal();
 }
+
+//Cuando programamos con formularios, se programa el formulario comleto, no solo el boton
+document.getElementById("frmEditar").addEventListener("submit", async e => {
+    e.preventDefault();//Evita que el formulario haga un submit
+
+    //Capturamos los valores de los imput
+    const id = document.getElementById("txtIdEditar").value;
+    const nombre = document.getElementById("txtNombreEditar").value.trim();
+    const apellido = document.getElementById("txtApellidoEditar").value.trim();
+    const correo = document.getElementById("txtCorreoEditar").value.trim();
+
+    //Validacion de las constantes
+    if(!id || !nombre || !apellido || !correo){
+        alert("Primero complete los campos");
+        return; //evita que el codigo se siga ejecutando
+    }
+
+    //llamada a la API
+    const respuesta = await fetch(`${API_URL}/${id}`, {
+        method: "PUT",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({correo, nombre, apellido})
+    });
+
+    if(respuesta.ok){
+        alert("El registro fue actualizado correctamente");
+        modalEditar.close();
+        obtenerIntegrantes();
+    }
+    else{
+        alert("El registro no pudo ser actualizado");
+    }
+});
 
